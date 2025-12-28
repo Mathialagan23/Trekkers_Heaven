@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FaPlane, FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaPlane, FaPlus } from 'react-icons/fa';
 import { getFlights, deleteFlight } from '../services/flightService';
 import FlightForm from '../components/FlightForm';
+import FlightItem from '../components/FlightItem';
 import '../styles/ListPage.css';
 
 const Flights = () => {
@@ -80,25 +81,7 @@ const Flights = () => {
         ) : (
           <div className="items-grid">
             {flights.map((item) => (
-              <div key={item._id} className="item-card">
-                <div className="item-header">
-                  <h3>{item.airline}</h3>
-                  <div className="item-actions">
-                    <button onClick={() => handleEdit(item)} className="btn-icon">
-                      <FaEdit />
-                    </button>
-                    <button onClick={() => handleDelete(item._id)} className="btn-icon btn-icon-danger">
-                      <FaTrash />
-                    </button>
-                  </div>
-                </div>
-                <div className="item-details">
-                  <p><strong>From:</strong> {item.departure.airport} - {new Date(item.departure.date).toLocaleDateString()} {item.departure.time}</p>
-                  <p><strong>To:</strong> {item.arrival.airport} - {new Date(item.arrival.date).toLocaleDateString()} {item.arrival.time}</p>
-                  {item.price > 0 && <p><strong>Price:</strong> ${item.price}</p>}
-                  {item.notes && <p><strong>Notes:</strong> {item.notes}</p>}
-                </div>
-              </div>
+              <FlightItem key={item._id} item={item} onEdit={handleEdit} onDelete={handleDelete} />
             ))}
           </div>
         )}

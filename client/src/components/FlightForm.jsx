@@ -16,6 +16,7 @@ const FlightForm = ({ item, onClose, onSuccess }) => {
       time: ''
     },
     price: 0,
+    bookingLink: '',
     notes: ''
   });
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ const FlightForm = ({ item, onClose, onSuccess }) => {
           time: item.arrival?.time || ''
         },
         price: item.price || 0,
+        bookingLink: item.bookingLink || '',
         notes: item.notes || ''
       });
     }
@@ -192,6 +194,18 @@ const FlightForm = ({ item, onClose, onSuccess }) => {
               step="0.01"
             />
           </div>
+
+          <div className="form-group">
+            <label>Booking Link</label>
+            <input
+              type="url"
+              name="bookingLink"
+              value={formData.bookingLink}
+              onChange={handleChange}
+              placeholder="https://example.com/book"
+            />
+          </div>
+
           <div className="form-group">
             <label>Notes</label>
             <textarea

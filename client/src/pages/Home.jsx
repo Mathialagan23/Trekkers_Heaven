@@ -7,7 +7,12 @@ import '../styles/Home.css';
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState({});
   const navigate = useNavigate();
+
+  const toggleExpand = (id) => {
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const destinations = [
     {
@@ -89,19 +94,29 @@ const Home = () => {
             <div className="loading">Loading blogs...</div>
           ) : blogs.length > 0 ? (
             <div className="blogs-grid">
-              {blogs.map((blog) => (
-                <div key={blog._id} className="blog-card">
-                  <h3>{blog.title}</h3>
-                  <p className="blog-destination">📍 {blog.destination}</p>
-                  <p className="blog-content">{blog.content.substring(0, 150)}...</p>
-                  <div className="blog-meta">
-                    <span>By {blog.user?.name || 'Anonymous'}</span>
-                    <button onClick={handleAction} className="btn btn-outline btn-small">
-                      Read More
-                    </button>
+              {blogs.map((blog) => {
+                const isExpanded = !!expanded[blog._id];
+                const isLong = (blog.content || '').length > 150;
+                return (
+                  <div key={blog._id} className="blog-card">
+                    <h3>{blog.title}</h3>
+                    <p className="blog-destination">📍 {blog.destination}</p>
+                    <p className="blog-content">
+                      {isExpanded || !isLong
+                        ? blog.content
+                        : `${blog.content.substring(0, 150)}...`}
+                    </p>
+                    <div className="blog-meta">
+                      <span>By {blog.user?.name || 'Anonymous'}</span>
+                      {isLong && (
+                        <button onClick={() => toggleExpand(blog._id)} className="btn btn-outline btn-small">
+                          {isExpanded ? 'Show Less' : 'Read More'}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <p className="no-blogs">No blogs available yet. Be the first to share your experience!</p>

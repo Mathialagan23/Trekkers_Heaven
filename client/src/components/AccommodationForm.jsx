@@ -9,6 +9,7 @@ const AccommodationForm = ({ item, onClose, onSuccess }) => {
     checkIn: '',
     checkOut: '',
     price: 0,
+    bookingLink: '',
     notes: ''
   });
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ const AccommodationForm = ({ item, onClose, onSuccess }) => {
         checkIn: item.checkIn ? new Date(item.checkIn).toISOString().split('T')[0] : '',
         checkOut: item.checkOut ? new Date(item.checkOut).toISOString().split('T')[0] : '',
         price: item.price || 0,
+        bookingLink: item.bookingLink || '',
         notes: item.notes || ''
       });
     }
@@ -122,6 +124,18 @@ const AccommodationForm = ({ item, onClose, onSuccess }) => {
               step="0.01"
             />
           </div>
+
+          <div className="form-group">
+            <label>Booking Link</label>
+            <input
+              type="url"
+              name="bookingLink"
+              value={formData.bookingLink}
+              onChange={handleChange}
+              placeholder="https://example.com/book"
+            />
+          </div>
+
           <div className="form-group">
             <label>Notes</label>
             <textarea
@@ -130,7 +144,7 @@ const AccommodationForm = ({ item, onClose, onSuccess }) => {
               onChange={handleChange}
               rows="4"
             />
-          </div>
+          </div> 
           <div className="modal-actions">
             <button type="button" onClick={onClose} className="btn btn-outline">
               Cancel

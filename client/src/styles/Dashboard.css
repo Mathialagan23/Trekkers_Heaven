@@ -59,6 +59,20 @@
   line-height: 1.6;
 }
 
+.dashboard-card .card-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.dashboard-card .card-actions .btn-small {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+
+
 @media (max-width: 768px) {
   .dashboard-grid {
     grid-template-columns: 1fr;

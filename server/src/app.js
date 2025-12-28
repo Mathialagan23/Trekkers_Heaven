@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
 import authRoutes from './routes/authRoutes.js';
@@ -8,8 +7,6 @@ import accommodationRoutes from './routes/accommodationRoutes.js';
 import flightRoutes from './routes/flightRoutes.js';
 import itineraryRoutes from './routes/itineraryRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
-
-dotenv.config();
 
 const app = express();
 

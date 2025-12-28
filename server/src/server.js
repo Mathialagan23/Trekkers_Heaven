@@ -1,8 +1,10 @@
-import app from './app.js';
-import connectDB from './config/database.js';
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Load environment variables from config file before other imports
+dotenv.config({ path: './src/config/config.env' });
+
+import app from './app.js';
+import connectDB from './config/database.js';
 
 const PORT = process.env.PORT || 5000;
 
