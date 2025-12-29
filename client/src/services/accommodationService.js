@@ -11,8 +11,11 @@ export const getAccommodation = async (id) => {
 };
 
 export const createAccommodation = async (data) => {
-  const response = await api.post('/accommodations', data);
-  return response.data;
+  const itinerary = localStorage.getItem('activeItineraryId');
+  if (!itinerary) return Promise.reject({ response: { data: { message: 'No active itinerary selected' } } });
+  const payload = { ...data, itinerary };
+  const response = await api.post('/accommodations', payload);
+  return response.data.accommodation || response.data;
 };
 
 export const updateAccommodation = async (id, data) => {

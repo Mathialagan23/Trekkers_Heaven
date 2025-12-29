@@ -73,9 +73,38 @@
 
 
 
+.itinerary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.itinerary-card {
+  background: white;
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  cursor: pointer;
+}
+
+.itinerary-card.active {
+  border: 2px solid var(--primary-color);
+}
+
+.itinerary-card h3 { margin: 0 0 6px 0; }
+.itinerary-card .dates { color: var(--light-text); font-size: 13px; }
+.itinerary-card .budget-row { display:flex; justify-content:space-between; margin-top:10px; font-size:14px }
+.itinerary-card .progress { height:8px; background:#eee; border-radius:8px; overflow:hidden; margin-top:10px }
+.itinerary-card .progress .progress-bar { height:100%; background:var(--primary-color); }
+
+.expense-summary { margin-top: 20px; background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06) }
+.expense-summary .summary-row { display:flex; gap:24px; margin:10px 0 }
+
 @media (max-width: 768px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
+  .expense-summary .summary-row { flex-direction:column }
 }
 

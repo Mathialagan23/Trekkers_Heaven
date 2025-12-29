@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { formatCurrency, getItineraryCurrency } from '../utils/currency';
 
 const FlightItem = ({ item, onEdit, onDelete }) => {
   return (
@@ -19,7 +20,7 @@ const FlightItem = ({ item, onEdit, onDelete }) => {
       <div className="item-details">
         <p><strong>From:</strong> {item.departure.airport} - {new Date(item.departure.date).toLocaleDateString()} {item.departure.time}</p>
         <p><strong>To:</strong> {item.arrival.airport} - {new Date(item.arrival.date).toLocaleDateString()} {item.arrival.time}</p>
-        {item.price > 0 && <p><strong>Price:</strong> ${item.price}</p>}
+        {item.price > 0 && <p><strong>Price:</strong> {formatCurrency(item.price || 0, getItineraryCurrency(item.itinerary || item.itineraryId))}</p>}
         {item.notes && <p><strong>Notes:</strong> {item.notes}</p>}
       </div>
     </div>

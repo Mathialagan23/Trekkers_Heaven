@@ -34,6 +34,11 @@ const itinerarySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Accommodation'
   }],
+  budget: {
+    type: Number,
+    required: [true, 'Please provide itinerary budget'],
+    min: [0, 'Budget cannot be negative']
+  },
   notes: {
     type: String,
     default: ''

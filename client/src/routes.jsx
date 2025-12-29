@@ -6,9 +6,11 @@ import Dashboard from './pages/Dashboard';
 import Accommodations from './pages/Accommodations';
 import Flights from './pages/Flights';
 import Buses from './pages/Buses';
+import Trains from './pages/Trains';
 import Itineraries from './pages/Itineraries';
 import Blogs from './pages/Blogs';
 import Map from './pages/Map';
+import Expenses from './pages/Expenses';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const AppRoutes = () => {
@@ -50,6 +52,14 @@ const AppRoutes = () => {
         }
       />
       <Route
+        path="/trains"
+        element={
+          <ProtectedRoute>
+            <Trains />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/itineraries"
         element={
           <ProtectedRoute>
@@ -70,6 +80,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Map />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/expenses/:itineraryId"
+        element={
+          <ProtectedRoute>
+            <Expenses />
           </ProtectedRoute>
         }
       />

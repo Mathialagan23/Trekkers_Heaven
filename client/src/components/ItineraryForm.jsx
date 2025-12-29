@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createItinerary, updateItinerary } from '../services/itineraryService';
+import { setItineraryCurrency, getTempCurrencyForCreate, setTempCurrencyForCreate, clearTempCurrencyForCreate } from '../utils/currency';
 import '../styles/FormModal.css';
 
 const ItineraryForm = ({ item, onClose, onSuccess }) => {
@@ -9,6 +10,8 @@ const ItineraryForm = ({ item, onClose, onSuccess }) => {
     destination: '',
     startDate: '',
     endDate: '',
+    budget: 0,
+    currency: getTempCurrencyForCreate() || 'INR',
     notes: ''
   });
   const [loading, setLoading] = useState(false);
@@ -16,12 +19,20 @@ const ItineraryForm = ({ item, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (item) {
+      // pull currency from local storage map (frontend-only persistence)
+      let currency = 'INR';
+      try {
+        currency = localStorage.getItem('itineraryCurrencies_v1') ? JSON.parse(localStorage.getItem('itineraryCurrencies_v1'))[item._id] || 'INR' : 'INR';
+      } catch (e) { currency = 'INR'; }
+
       setFormData({
         title: item.title || '',
         description: item.description || '',
         destination: item.destination || '',
         startDate: item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : '',
         endDate: item.endDate ? new Date(item.endDate).toISOString().split('T')[0] : '',
+        budget: typeof item.budget !== 'undefined' ? item.budget : 0,
+        currency,
         notes: item.notes || ''
       });
     }
@@ -37,6 +48,12 @@ const ItineraryForm = ({ item, onClose, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (Number(formData.budget) < 0) {
+      setError('Budget must be a non-negative number');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -44,14 +61,23 @@ const ItineraryForm = ({ item, onClose, onSuccess }) => {
         ...formData,
         startDate: new Date(formData.startDate),
         endDate: new Date(formData.endDate),
+        budget: Number(formData.budget),
+        currency: formData.currency,
         flights: item?.flights?.map(f => f._id) || [],
         accommodations: item?.accommodations?.map(a => a._id) || []
       };
 
       if (item) {
-        await updateItinerary(item._id, data);
+        const updated = await updateItinerary(item._id, data);
+        // persist currency locally
+        setItineraryCurrency(item._id, formData.currency);
       } else {
-        await createItinerary(data);
+        const created = await createItinerary(data);
+        // created itinerary id -> persist currency locally
+        if (created && created._id) {
+          setItineraryCurrency(created._id, formData.currency);
+          clearTempCurrencyForCreate();
+        }
       }
       onSuccess();
     } catch (err) {
@@ -121,6 +147,27 @@ const ItineraryForm = ({ item, onClose, onSuccess }) => {
               rows="4"
             />
           </div>
+          <div className="form-group">
+            <label>Budget *</label>
+            <input
+              type="number"
+              name="budget"
+              value={formData.budget}
+              onChange={handleChange}
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Currency</label>
+            <select name="currency" value={formData.currency} onChange={(e) => { handleChange(e); setTempCurrencyForCreate(e.target.value); }}>
+              <option value="INR">INR (₹)</option>
+              <option value="USD">USD ($)</option>
+            </select>
+          </div>
+
           <div className="form-group">
             <label>Notes</label>
             <textarea

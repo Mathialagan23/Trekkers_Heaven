@@ -11,8 +11,12 @@ export const getFlight = async (id) => {
 };
 
 export const createFlight = async (data) => {
-  const response = await api.post('/flights', data);
-  return response.data;
+  const itinerary = localStorage.getItem('activeItineraryId');
+  if (!itinerary) return Promise.reject({ response: { data: { message: 'No active itinerary selected' } } });
+  const payload = { ...data, itinerary };
+  const response = await api.post('/flights', payload);
+  // maintain backward compatibility: response may include { flight, totals }
+  return response.data.flight || response.data;
 };
 
 export const updateFlight = async (id, data) => {

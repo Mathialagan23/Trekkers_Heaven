@@ -51,12 +51,20 @@ const AccommodationForm = ({ item, onClose, onSuccess }) => {
 
       if (item) {
         await updateAccommodation(item._id, data);
+        alert('Accommodation updated');
+        const itineraryId = localStorage.getItem('activeItineraryId');
+        if (itineraryId) window.dispatchEvent(new CustomEvent('itineraryTotalsUpdated', { detail: { itineraryId } }));
       } else {
         await createAccommodation(data);
+        alert('Accommodation added');
+        const itineraryId = localStorage.getItem('activeItineraryId');
+        if (itineraryId) window.dispatchEvent(new CustomEvent('itineraryTotalsUpdated', { detail: { itineraryId } }));
       }
       onSuccess();
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
+      const msg = err.response?.data?.message;
+      if (msg === 'No active itinerary selected') setError('No active itinerary selected. Please choose one in the Dashboard first.');
+      else setError(msg || 'Something went wrong');
     } finally {
       setLoading(false);
     }

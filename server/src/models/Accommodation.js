@@ -26,6 +26,10 @@ const accommodationSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  itinerary: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Itinerary'
+  },
   notes: {
     type: String,
     default: ''

@@ -1,11 +1,23 @@
 import Itinerary from '../models/Itinerary.js';
+import { getTotalsForItinerary } from '../utils/budget.js';
 
 export const getItineraries = async (req, res) => {
   try {
-    const itineraries = await Itinerary.find({ user: req.user._id })
+    let itineraries = await Itinerary.find({ user: req.user._id })
       .populate('flights')
       .populate('accommodations')
       .sort({ startDate: -1 });
+
+    // attach totals for each itinerary
+    itineraries = await Promise.all(itineraries.map(async (it) => {
+      const totals = await getTotalsForItinerary(it._id);
+      const itObj = it.toObject();
+      itObj.totalSpent = totals.totalSpent;
+      itObj.remainingBudget = totals.remainingBudget;
+      itObj.budget = totals.budget;
+      return itObj;
+    }));
+
     res.json(itineraries);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -26,7 +38,13 @@ export const getItinerary = async (req, res) => {
       return res.status(401).json({ message: 'Not authorized' });
     }
 
-    res.json(itinerary);
+    const totals = await getTotalsForItinerary(itinerary._id);
+    const itObj = itinerary.toObject();
+    itObj.totalSpent = totals.totalSpent;
+    itObj.remainingBudget = totals.remainingBudget;
+    itObj.budget = totals.budget;
+
+    res.json(itObj);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { FaRoute, FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import { getItineraries, deleteItinerary } from '../services/itineraryService';
 import ItineraryForm from '../components/ItineraryForm';
+import { formatCurrency, getItineraryCurrency } from '../utils/currency';
 import '../styles/ListPage.css';
 
 const Itineraries = () => {
@@ -99,6 +100,8 @@ const Itineraries = () => {
                   {item.description && <p><strong>Description:</strong> {item.description}</p>}
                   {item.flights?.length > 0 && <p><strong>Flights:</strong> {item.flights.length}</p>}
                   {item.accommodations?.length > 0 && <p><strong>Accommodations:</strong> {item.accommodations.length}</p>}
+                  <p><strong>Budget:</strong> {formatCurrency(item.budget || 0, getItineraryCurrency(item._id))}</p>
+                  <p><strong>Spent:</strong> {formatCurrency(item.totalSpent || 0, getItineraryCurrency(item._id))}</p>
                   {item.notes && <p><strong>Notes:</strong> {item.notes}</p>}
                 </div>
               </div>

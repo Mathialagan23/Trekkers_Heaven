@@ -1,4 +1,7 @@
 import Flight from '../models/Flight.js';
+import Itinerary from '../models/Itinerary.js';
+import { createAutoExpense } from '../utils/autoExpense.js';
+import { getTotalsForItinerary } from '../utils/budget.js';
 
 export const getFlights = async (req, res) => {
   try {
@@ -29,11 +32,33 @@ export const getFlight = async (req, res) => {
 
 export const createFlight = async (req, res) => {
   try {
+    const { itinerary: itineraryId, price } = req.body;
+
+    if (!itineraryId) return res.status(400).json({ message: 'Itinerary is required' });
+
+    const itinerary = await Itinerary.findById(itineraryId);
+    if (!itinerary) return res.status(404).json({ message: 'Itinerary not found' });
+    if (itinerary.user.toString() !== req.user._id.toString()) return res.status(401).json({ message: 'Not authorized' });
+
     const flight = await Flight.create({
       ...req.body,
-      user: req.user._id
+      user: req.user._id,
+      itinerary: itineraryId
     });
-    res.status(201).json(flight);
+
+    // auto-create expense for the flight
+    if (price && Number(price) > 0) {
+      await createAutoExpense({
+        userId: req.user._id,
+        itineraryId,
+        amount: Number(price),
+        category: 'Travel',
+        note: `Auto: Flight - ${flight.airline || ''}`
+      });
+    }
+
+    const totals = await getTotalsForItinerary(itineraryId);
+    res.status(201).json({ flight, totals });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
