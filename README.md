@@ -123,7 +123,7 @@ All protected routes require a valid JWT token in the `Authorization` header.
 ```http
 GET /api/itineraries
 Authorization: Bearer <JWT_TOKEN>
-
+```
 
 ### Deployment
 
