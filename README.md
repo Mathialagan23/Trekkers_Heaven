@@ -1,13 +1,41 @@
 # Trekkers Heaven
 
-A comprehensive MERN stack travel planning application.
+Trekkers Heaven is a **full-stack MERN travel planning application** that helps users plan trips,
 
 ## Project Structure
 
 ```
-/client          - React frontend (Vite)
-/server          - Node.js/Express backend
+Trekkers_Heaven/
+│
+├── client/ # React frontend (Vite)
+│ ├── src/
+│ ├── public/
+│ └── vite.config.js
+│
+├── server/ # Express backend
+│ ├── src/
+│ │ ├── controllers/
+│ │ ├── models/
+│ │ ├── routes/
+│ │ ├── utils/
+│ │ └── app.js
+│ └── server.js
+│
+└── README.md
 ```
+
+## Features
+
+- 🔐 User Authentication (JWT-based)
+- 🧭 Itinerary Management (Trip-specific)
+- 💰 Expense Tracking with Budget & Warnings
+- ✈️ Flights / 🚌 Bus / 🚆 Train / 🏨 Accommodation (linked to itinerary)
+- 💱 Currency Support (INR / USD)
+- 📊 Budget usage percentage & alerts
+- 📝 Travel Blogs (Public + Personal)
+- 📍 Map View (Destinations)
+- 📱 Responsive UI (Desktop & Mobile)
+- 🌐 Deployed-ready (Vercel + Render + MongoDB Atlas)
 
 ## Tech Stack
 
@@ -39,7 +67,7 @@ cd server
 npm install
 ```
 
-3. Create `.env` file in `server/` directory:
+3. Create `config.env` file in `server/` directory:
 ```env
 PORT=5000
 MONGODB_URI=your_mongodb_atlas_connection_string
@@ -69,7 +97,7 @@ npm install
 3. Create `.env` file in `client/` directory:
 ```env
 VITE_API_URL=http://localhost:5000/api
-VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+<!-- VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key Optional -->
 ```
 
 4. Start the development server:
@@ -77,57 +105,31 @@ VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 npm run dev
 ```
 
-## Features
+## Backend API Overview
 
-- User Authentication (Register/Login)
-- User Dashboard
-- Accommodation Management (CRUD)
-- Flight Management (CRUD)
-- Itinerary Management (CRUD)
-- Travel Blogs (Public visibility, owner can edit/delete)
-- Google Maps Integration
-- Responsive Design
+Trekkers Heaven uses a RESTful API secured with JWT authentication.
 
-## API Endpoints
+### Core Modules
+- Authentication (JWT-based)
+- Itineraries (Trip planning & budgets)
+- Expenses (Trip-based expense tracking)
+- Accommodations (Hostel/Hotel stays)
+- Flights, Buses, Trains (Travel bookings)
+- Blogs (Public travel experiences)
 
-### Auth
-- POST `/api/auth/register` - Register new user
-- POST `/api/auth/login` - Login user
-- GET `/api/auth/me` - Get current user (protected)
+All protected routes require a valid JWT token in the `Authorization` header.
 
-### Accommodations
-- GET `/api/accommodations` - Get all user accommodations (protected)
-- GET `/api/accommodations/:id` - Get accommodation by ID (protected)
-- POST `/api/accommodations` - Create accommodation (protected)
-- PUT `/api/accommodations/:id` - Update accommodation (protected)
-- DELETE `/api/accommodations/:id` - Delete accommodation (protected)
+### Example Protected Request
+```http
+GET /api/itineraries
+Authorization: Bearer <JWT_TOKEN>
 
-### Flights
-- GET `/api/flights` - Get all user flights (protected)
-- GET `/api/flights/:id` - Get flight by ID (protected)
-- POST `/api/flights` - Create flight (protected)
-- PUT `/api/flights/:id` - Update flight (protected)
-- DELETE `/api/flights/:id` - Delete flight (protected)
 
-### Itineraries
-- GET `/api/itineraries` - Get all user itineraries (protected)
-- GET `/api/itineraries/:id` - Get itinerary by ID (protected)
-- POST `/api/itineraries` - Create itinerary (protected)
-- PUT `/api/itineraries/:id` - Update itinerary (protected)
-- DELETE `/api/itineraries/:id` - Delete itinerary (protected)
+### Deployment
 
-### Blogs
-- GET `/api/blogs/public` - Get all public blogs
-- GET `/api/blogs` - Get user's blogs (protected)
-- GET `/api/blogs/:id` - Get blog by ID
-- POST `/api/blogs` - Create blog (protected)
-- PUT `/api/blogs/:id` - Update blog (protected)
-- DELETE `/api/blogs/:id` - Delete blog (protected)
-
-## Deployment
-
-- Frontend: Deploy to Netlify
+- Frontend: Deploy to Vercel
 - Backend: Deploy to Render
+- MongoDB Atlas
 
 Make sure to update environment variables in your deployment platforms.
 

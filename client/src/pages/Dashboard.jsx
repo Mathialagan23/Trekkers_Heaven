@@ -259,7 +259,7 @@ const Dashboard = () => {
                       className="btn btn-outline btn-small"
                       onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowItineraryDropdown((s) => !s); }}
                     >
-                      Select Itinerary
+                      Select
                     </button>
 
                     {showItineraryDropdown && (

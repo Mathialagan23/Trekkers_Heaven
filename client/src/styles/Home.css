@@ -3,10 +3,30 @@
 }
 
 .hero {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  position: relative;
   color: white;
   padding: 80px 0;
   text-align: center;
+
+  /* 🔥 Background image */
+  background-image: url("/asset/person-traveling-enjoying-their-vacation.jpg");
+  background-size: cover;        /* fit perfectly */
+  background-position: center;   /* center focus */
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 0;
+}
+
+/* Content above overlay */
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
@@ -19,6 +39,7 @@
   margin-bottom: 30px;
   opacity: 0.9;
 }
+
 
 .btn-large {
   padding: 15px 40px;
@@ -35,7 +56,8 @@
 .blogs-section h2,
 .features h2 {
   text-align: center;
-  color: var(--primary-color);
+  /* color: black; */
+  color: black;
   font-size: 36px;
   margin-bottom: 40px;
 }
@@ -70,13 +92,15 @@
 }
 
 .destination-info h3 {
-  color: var(--primary-color);
+  /* color: black; */
+  color: black;
   margin-bottom: 10px;
   font-size: 20px;
 }
 
 .destination-info p {
-  color: var(--light-text);
+  /* color: var(--light-text); */
+  color: gray;
   line-height: 1.6;
 }
 
@@ -90,7 +114,7 @@
 
 .section-icon {
   font-size: 32px;
-  color: var(--primary-color);
+  color: #1e611e;
 }
 
 .blogs-grid {
@@ -113,13 +137,15 @@
 }
 
 .blog-card h3 {
-  color: var(--primary-color);
+  /* color: black; */
+  color: black;
   margin-bottom: 10px;
   font-size: 22px;
 }
 
 .blog-destination {
-  color: var(--secondary-green);
+  /* color: var(--secondary-green); */
+  color: green;
   font-weight: 500;
   margin-bottom: 10px;
 }
@@ -147,6 +173,64 @@
   padding: 40px;
 }
 
+/* --- Blog content scroll fix --- */
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  /* Prevent the card from growing indefinitely when content expands */
+  max-height: 420px;
+  min-height: 180px;
+}
+
+/* Wrapper controls expand + scroll */
+.blog-content-wrapper {
+  /* allow the wrapper to take available space within the card */
+  flex: 1 1 auto;
+  max-height: 120px; /* collapsed height */
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+
+/* Expanded state */
+.blog-content-wrapper.expanded {
+  max-height: 260px; /* visible scroll area */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 6px; /* space for scrollbar */
+  /* prevent scroll chaining to the page */
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-gutter: stable;
+}
+
+/* Ensure content spacing stays clean */
+.blog-content {
+  margin-bottom: 0;
+}
+
+/* Keep meta always visible and on top */
+.blog-meta {
+  z-index: 1;
+  background: white;
+  flex: 0 0 auto;
+}
+
+/* Custom scrollbar (optional but nice) */
+.blog-content-wrapper.expanded::-webkit-scrollbar {
+  width: 6px;
+}
+
+.blog-content-wrapper.expanded::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 4px;
+}
+
+.blog-content-wrapper.expanded::-webkit-scrollbar-track {
+  background: #f2f2f2;
+}
+
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -173,7 +257,7 @@
 
 .feature-icon {
   font-size: 48px;
-  color: var(--primary-color);
+  color: var(--icon-color);
   margin-bottom: 20px;
 }
 
@@ -187,6 +271,8 @@
   color: var(--light-text);
   line-height: 1.6;
 }
+
+
 
 @media (max-width: 768px) {
   .hero h1 {

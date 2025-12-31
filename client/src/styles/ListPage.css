@@ -21,11 +21,11 @@
 
 .page-icon {
   font-size: 32px;
-  color: var(--primary-color);
+  color: black;
 }
 
 .page-header h1 {
-  color: var(--primary-color);
+  color: black;
   font-size: 36px;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .item-header h3 {
-  color: var(--primary-color);
+  color: black;
   font-size: 22px;
   margin: 0;
 }
@@ -71,7 +71,7 @@
 .btn-icon {
   background: none;
   border: none;
-  color: var(--primary-color);
+  color: black;
   font-size: 18px;
   padding: 5px;
   cursor: pointer;
@@ -97,7 +97,7 @@
 }
 
 .item-details strong {
-  color: var(--primary-color);
+  color: black;
 }
 
 .empty-state {
@@ -110,7 +110,7 @@
 
 .empty-icon {
   font-size: 64px;
-  color: var(--primary-color);
+  color: black;
   margin-bottom: 20px;
 }
 
@@ -144,7 +144,7 @@
 
 .tag {
   background-color: var(--light-green);
-  color: var(--primary-color);
+  color: black;
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 12px;

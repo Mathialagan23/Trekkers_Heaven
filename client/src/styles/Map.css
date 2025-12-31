@@ -11,12 +11,12 @@
 
 .map-icon {
   font-size: 48px;
-  color: var(--primary-color);
+  color: black;
   margin-bottom: 20px;
 }
 
 .map-header h1 {
-  color: var(--primary-color);
+  color: black;
   font-size: 36px;
   margin-bottom: 10px;
 }
